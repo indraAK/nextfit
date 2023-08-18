@@ -10,13 +10,17 @@ export default function ShareButton({ exercise }: { exercise: Exercise }) {
   };
 
   async function handleShare() {
+    if (!navigator.share) {
+      alert("Your browser doesn't support the Web Share API");
+      return;
+    }
+
     try {
-      // feature check
       if (navigator.canShare(shareData)) {
         await navigator.share(shareData);
       }
     } catch (err) {
-      alert("OOps, share not available at the moment!");
+      console.error(`Error: ${err}`);
     }
   }
 
